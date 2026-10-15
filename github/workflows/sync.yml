@@ -1,0 +1,25 @@
+name: Auto-Sync Fork
+
+on:
+  schedule:
+    # بيشتغل أوتوماتيك كل 15 دقيقة (تقدر تغيرها)
+    - cron: '*/15 * * * *'
+  # يضيف زرار لتشغيله يدوياً في أي وقت من قائمة Actions
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Fork
+        uses: actions/checkout@v3
+
+      - name: Run Upstream Sync
+        uses: aormsby/Fork-Sync-With-Upstream-Action@v3.4.1
+        with:
+          upstream_sync_repo: mazen1-1/mohamed-amin-1
+          upstream_sync_branch: main
+          target_branch: main
+          test_mode: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
